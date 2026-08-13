@@ -1,90 +1,91 @@
 # Decisions
 
-What we chose, what we rejected, and why.
+What we chose, what we rejected, why. Newest last.
 
-Every stitch that makes a choice adds an entry here before it can be tied. This doubles as the
-learning record — writing down *why* something is shaped the way it is is the part that's worth
-having in three months, and it's more useful than a quiz because you have to be able to act on it.
+> **KEEP IT SHORT.** Four lines per entry. One sentence each, and only the sentence that will still
+> matter in three months. If it needs a paragraph it belongs in `docs/`, not here. This is a log, not
+> a memo — a wall of prose is a log nobody rereads.
 
-Newest last. Keep entries short.
-
----
-
-## Format
+Corrections go in place as a dated line, never a silent edit. The point is to show what we believed
+and when.
 
 ```markdown
-## NNN — <short title>
-**Date:** YYYY-MM-DD · **Stitch:** <stitch-id>
-
-**Chose:** <what we did>
-**Rejected:** <the alternative, named>
-**Why:** <the reasoning — the part worth remembering>
-**Would revisit if:** <what would change the answer>
+## NNN — <title>
+**YYYY-MM-DD** · `<stitch-id>`
+**Chose:** …  **Rejected:** …
+**Why:** …
+**Revisit if:** …
 ```
 
 ---
 
 ## 001 — Work is decomposed on a loom
-**Date:** 2026-08-11 · **Stitch:** — (project setup)
-
-**Chose:** [zealtv/loom](https://github.com/zealtv/loom) v2.1.0, with `PLAN.md` as a readable mirror
-of the same tree.
-
-**Rejected:** A flat task list, and issue tracking.
-
-**Why:** The work is genuinely a tree with real dependencies, and the shape matters — sibling stitches
-being parallel and parents waiting for children is exactly how the stages actually behave. Directory
-state means it's greppable and diffable, and the plan and the work can't drift apart because they're
-the same structure.
-
-**Would revisit if:** The tree stops changing shape, at which point a list would do.
+**2026-08-11** · project setup
+**Chose:** [zealtv/loom](https://github.com/zealtv/loom) v2.1.0, `PLAN.md` mirrors the same tree.
+**Rejected:** flat task list, issue tracker.
+**Why:** the work is a tree with real dependencies, and directory state is greppable, diffable, and
+can't drift from the plan.
+**Revisit if:** the tree stops changing shape.
 
 ---
 
-## 002 — Every stage ends with a run-book, not just a working system
-**Date:** 2026-08-11 · **Stitch:** `stage-<n>-runbook` ×5
-
-**Chose:** Each stage's final stitch produces a one-page run-book, a safety briefing, and a test
-where someone who is not Joseph runs the stage unaided. Anchored to need the substantive branches.
-
-**Rejected:** Doing all facilitation preparation in the final week before the workshop.
-
-**Why:** Whatever stage is finished when the workshop arrives is the one that runs. That only works
-if every stage is actually shippable, and a stage nobody else has ever operated is not. It also means
-the facilitation gets tested five times instead of once.
-
-**Would revisit if:** The workshop configuration gets fixed in advance, which would make one final
-run-book sufficient.
+## 002 — Every stage ends with a run-book
+**2026-08-11** · `stage-<n>-runbook` ×5
+**Chose:** each stage ends with a one-page run-book and someone who isn't Joseph running it unaided.
+**Rejected:** all facilitation prep in the final week.
+**Why:** whatever stage is finished when the workshop arrives is the one that runs, so every stage
+has to be shippable — and a stage nobody else has operated isn't.
+**Revisit if:** the workshop configuration gets fixed in advance.
 
 ---
 
 ## 003 — One package, no extras
-**Date:** 2026-08-11 · **Stitch:** `0.1.1 repo-and-env`
+**2026-08-11** · `0.1.1 repo-and-env`
+**Chose:** single package — sim, creature, radio, safety.
+**Rejected:** splitting a hardware-free core, or optional dependency extras.
+**Why:** everyone working on this has cflib and flies drones, so there's nobody to separate it for.
+**Revisit if:** someone needs to run the sim on a machine that can't install cflib.
 
-**Chose:** A single package containing sim, creature, radio and safety code.
-
-**Rejected:** Splitting a hardware-free core from the room runtime, or using optional dependency
-extras.
-
-**Why:** Running the sim without drones never instantiates the radio backend, so at runtime there is
-nothing to separate. The install-time argument — that someone without cflib shouldn't have to install
-it — doesn't apply, because everyone working on this has cflib and flies drones.
-
-**Would revisit if:** Someone needs to run the sim on a machine that can't install cflib. The one
-rule that keeps that option cheap: import cflib *inside* the radio backend, never at module top
-level, so `import dronegym` never needs the radio stack.
+**Correction 2026-08-11:** this originally claimed `import cflib` needs a radio attached. Wrong — it's
+inert until `cflib.crtp.init_drivers()`. The real rule is just: don't call `init_drivers()` at import
+time. The `python -c "import dronegym"` check it justified has been dropped.
 
 ---
 
-## 004 — Stages 3 and 4 are not planned yet
-**Date:** 2026-08-11 · **Stitch:** — (planning scope)
+## 004 — Stages 3 and 4 not planned yet
+**2026-08-11** · planning scope
+**Chose:** decompose to end of Stage 2 only.
+**Rejected:** planning the evolution and recorded-human work now.
+**Why:** planning it now produces detail that reads like knowledge and isn't.
+**Revisit if:** Stage 2 ties — `2.6 stage-2-runbook` writes up what it taught, before Stage 3 gets
+planned.
 
-**Chose:** Decompose to the end of Stage 2 only. Stages 3 and 4 get a paragraph each in `PLAN.md`.
+---
 
-**Rejected:** Planning the evolution and recorded-human work now.
+## 005 — Packaging deferred to end of Stage 2
+**2026-08-11** · `0.1.1 repo-and-env` → `2.5 packaging-and-env`
+**Chose:** Stage 0 gets a working env, nothing more. `pyproject.toml` and `environment.yml` move to
+`2.5`. `docs/setup.md` is the source of truth until then.
+**Rejected:** writing `environment.yml` alongside creating the env.
+**Why:** with no code there's no real dependency list, so it would describe a guess — and a file
+that's always stale gets ignored.
+**Revisit if:** someone else needs to build the env before Stage 2 ends.
 
-**Why:** The shape of the creature work isn't knowable until Stage 2 exists and has been played with.
-Planning it now would produce detail that reads like knowledge and isn't.
+---
 
-**Would revisit if:** Stage 2 ties. That's the trigger — `2.5 stage-2-runbook` ends by writing down
-what Stage 2 taught, *before* Stage 3 gets planned.
+## 006 — Declare what the code imports, not what it needs
+**2026-08-11** · `0.1.1 repo-and-env`
+**Chose:** `pip install mujoco cflib cfclient`. numpy not listed.
+**Rejected:** listing numpy "because we'll need it".
+**Why:** nothing imports it yet; it arrives via mujoco and cfclient anyway. Declare it the day our
+own code imports it — transitive dependencies vanish without warning.
+**Revisit if:** we write `import numpy`.
+
+---
+
+## 007 — Findings: no brew libusb, no mjpython
+**2026-08-11** · `0.1.1 repo-and-env`
+Not decisions — recorded so they aren't rediscovered.
+**libusb:** not needed. cflib pulls `libusb-package`, which bundles it. Verified on this machine.
+**mjpython:** not needed. `python -m mujoco.viewer` owns its own event loop. `mjpython` is only for
+scripts calling `viewer.launch_passive()`.
