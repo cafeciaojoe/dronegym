@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+
+# Editors and OS
+.DS_Store
+.vscode/
+
+# MuJoCo
+# Written to the working directory when the engine hits a problem. Useful to read,
+# never useful to commit.
+MUJOCO_LOG.TXT
+
+# Data the system produces
+# Recordings especially — 1a.4.1 will write a lot of them, and they get big.
+# If a specific recording becomes a fixture worth keeping, force-add it:
+#     git add -f recordings/known-good-push.json
+logs/
+recordings/
+*.log
+
+# Deliberately NOT ignored:
+#   .loom/    project state, belongs in version control
+#   assets/   models, including the cage — small and hand-authored

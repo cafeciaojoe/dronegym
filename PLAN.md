@@ -51,9 +51,9 @@ are cheap, and taking them now means nothing later is a guess.
 The repo itself, and somewhere for documentation to live from day one.
 
 #### 0.1.1 repo-and-env
-Conda env, package layout, MuJoCo hello-world. One package, no extras — running the sim without
-drones never touches cflib, so there is nothing to separate. One rule holds it: import cflib *inside*
-the radio backend, never at module top level.
+A working conda env with MuJoCo running in it. That's all. Packaging and pinning the environment are
+deferred to `2.5 packaging-and-env` — there's no code to package yet, and a dependency list written
+before the code exists just describes a guess.
 
 #### 0.1.2 docs-scaffold
 `README.md`, `DECISIONS.md` and `docs/` created before there is anything to put in them, because
@@ -340,8 +340,18 @@ exists to make this port cheap *later*, which is an argument for deferring it. A
 Stage 2 with a workshop approaching is how you end up half-ported on the day. If v1 is fine: drop
 this stitch with a reason.
 
-### 2.5 stage-2-runbook
-A full multi-drone session run by someone else, unaided. Then write down what Stage 2 taught, before
+### 2.5 packaging-and-env
+`pyproject.toml`, `pip install -e .`, and `environment.yml`. Deferred from 0.1.1 on purpose: at the
+start there was no code to package and no way to know the real dependency list, so anything written
+then would have described a guess. By now both are known and shaken out by having been run.
+
+Conda's export options both disappoint here — `--from-history` is short and portable but silently
+drops pip packages, and mujoco and cflib are pip; `--no-builds` keeps them but emits hundreds of
+macOS-ARM-specific lines. Expect to write the pip block by hand.
+
+### 2.6 stage-2-runbook
+A full multi-drone session run by someone else, unaided — which needs 2.5, since you can't hand
+someone a run-book they can't build the environment for. Then write down what Stage 2 taught, before
 planning Stage 3.
 
 ---
