@@ -6,7 +6,9 @@ its page exists.
 Audience: you in three months, and the support staff who have to operate whatever stage the workshop
 lands on.
 
-Nothing here yet — the list below is what the loom will produce, and which stitch owns each page.
+Most of the list below doesn't exist yet. The Stitch column says who owes it — that's the point of
+this page, since `ls` can show you what's here but not what's missing. Once most of these exist, this
+page has stopped earning its keep and should be deleted.
 
 ## Setup and operations
 
@@ -15,7 +17,6 @@ Nothing here yet — the list below is what the loom will produce, and which sti
 | `setup.md` | Recreating the environment from scratch | 0.1.1 |
 | `dg-doctor.md` | Each check, what it means, what to do when it fails | 0.2.1 |
 | `preflight.md` | The gate before anything arms motors | 0.2.2 |
-| `index.md` | This page | 0.1.2 |
 
 ## Measurements
 

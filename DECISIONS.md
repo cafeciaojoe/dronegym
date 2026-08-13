@@ -89,3 +89,17 @@ Not decisions — recorded so they aren't rediscovered.
 **libusb:** not needed. cflib pulls `libusb-package`, which bundles it. Verified on this machine.
 **mjpython:** not needed. `python -m mujoco.viewer` owns its own event loop. `mjpython` is only for
 scripts calling `viewer.launch_passive()`.
+
+---
+
+## 008 — One home per kind of writing
+**2026-08-11** · `0.1.2 docs-scaffold`
+**Chose:** `instructions.md` = what to do and whether it's done. `DECISIONS.md` = choices, four
+lines. `docs/` = how a thing works. Nothing gets copied between them.
+**Rejected:** an "Outcome" summary on tied stitches — every line of the first one was a pointer to
+something that already had a home.
+**Why:** three copies drift, and the ticked boxes plus git history already say what happened.
+**Revisit if:** something needs recording that fits none of the three.
+
+**Also:** `docs/index.md` → `docs/README.md`, because GitHub renders a folder's README when you
+browse into it. That page exists to list docs that *don't* exist yet; delete it once most do.
